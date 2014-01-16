@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="../css/cpps.css" />
+        <script type="text/javascript"
+          src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgavoATrZAQfMVo0F4cRzhiSz77ucxGdg&sensor=false">
+		</script>
+		<script type="text/javascript">
+var geocoder;
+var map;
+var marker;
+
+String.prototype.trim = function() {
+	return this.replace(/^\s+|\s+$/g, "");
+};
+
+function initialize() {
+	geocoder = new google.maps.Geocoder();
+	var myOptions = {
+	  zoom: 15,
+	  center: new google.maps.LatLng(52,0.1),
+	  mapTypeId: google.maps.MapTypeId.ROADMAP
+	}
+	var canvas = document.getElementById("map_canvas");
+	map = new google.maps.Map(canvas, myOptions);
+}
+
+function getAddress()
+{
+	var address1 = document.getElementById("property-address1").value.trim();
+	var address2 = document.getElementById("property-address2").value.trim();
+	var town = document.getElementById("property-town").value.trim();
+	var county = document.getElementById("property-county").value.trim();
+	var country = document.getElementById("property-country").value.trim();
+	var postcode = document.getElementById("property-postcode").value.trim();
+	
+	var address_parts = new Array();
+	var i=0;
+	if (address1!="") address_parts[i++] = address1;
+	if (address2!="") address_parts[i++] = address2;	
+	if (town!="") address_parts[i++] = town;
+	if (county!="") address_parts[i++] = county;
+	if (country!="") address_parts[i++] = country;
+	if (postcode!="") address_parts[i++] = postcode;
+
+	var address = address_parts.join();
+	return address;	
+}
+
+function locateAddress() {
+
+	var address = getAddress();
+	var latlng;
+	if (address != "") {
+		geocoder.geocode( {'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				var latLng = results[0].geometry.location;
+				map.setCenter(latLng);
+				if (marker != null) marker.setMap(null);
+				marker = new google.maps.Marker({
+					map: map,
+					draggable:true,
+					animation: google.maps.Animation.DROP,
+					position: latLng
+				});
+				document.getElementById("latlng").value = latLng.lat()+"^.^"+latLng.lng();
+				document.getElementById("lat").value = latLng.lat();
+				document.getElementById("lng").value = latLng.lng();
+				google.maps.event.addListener(marker, "dragend", function(position) {
+					document.getElementById("latlng").value = position.latLng.lat()+"^.^"+position.latLng.lng();
+					document.getElementById("lat").value = position.latLng.lat();
+					document.getElementById("lng").value = position.latLng.lng();
+				});
+			}
+			else {
+				alert("Geocode was not successful for the following reason: " + status);
+				return;
+			}
+		});
+	}
+	else
+	{
+		alert("Please enter a valid address!");
+		return;
+	}
+}
+</script>
+</head>
+<body onload="initialize()">
+
+<div id="add_property">
+	<form action="do_add_property.php" method="post">
+   		<div class="form-item">
+            <label for="property-for">For</label>
+            <select name="property[for]" id="property-for">
+                <option value="sale">Sale</option>
+                <option value="rent">Rent</option>                               
+            </select>
+        </div>
+   		<div class="form-item">
+			<label for="property-type">Type</label>
+            <select name="property[type]" id="property-type">
+                <option value="house">Houses</option>
+                <option value="flat">Flats</option>
+            </select>
+        </div>
+		<div class="form-item">
+            <label for="property-bed">Bed</label>
+            <input type="text" name="property[bed]" id="property-bed"  size="5"/>
+        </div>
+        <div class="form-item">
+            <label for="property-price">Price</label>
+            <input type="text" name="property[price]" id="property-price"  size="20"/>
+        </div>
+		<div class="form-item">
+            <label for="property-address1">Address</label>
+            <input type="text" maxlength="60" name="property[address1]" id="property-address1"  size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-address2">&nbsp;</label>
+            <input type="text" maxlength="60" name="property[address2]" id="property-address2"  size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-town">Town</label>
+            <input type="text" maxlength="60" name="property[town]" id="property-town" size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-county">County</label>
+            <input type="text" maxlength="60" name="property[county]" id="property-county" size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-postcode">Post Code</label>
+            <input type="text" maxlength="60" name="property[postcode]" id="property-postcode" size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-country">Country</label>
+            <input type="text" maxlength="60" name="property[country]" id="property-country" size="30"/>
+        </div>
+		<div class="form-item">
+            <label for="property-description">Description</label>
+            <textarea rows="5" cols="20" name="property[description]" id="property-description" wrap="physical"></textarea>
+        </div>
+        <input type="button" value="Locate on map" onclick="locateAddress()"/>
+        <input type="hidden" name="property[lat]" id="lat" value="">
+        <input type="hidden" name="property[lng]" id="lng" value="">
+        <input type="submit" name="submit" value="Add" class="form-submit" />
+    </form>
+</div>
+	<div id="map_canvas" style="width: 320px; height: 320px;"></div>
+    <div><input id="latlng" type="textbox" value="" /></div>
+</body>
+</html>

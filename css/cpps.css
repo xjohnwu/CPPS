@@ -1,0 +1,201 @@
+@charset "utf-8";
+/* CSS Document */
+body, html
+{
+	margin:0;
+	padding:0;
+	display:block;
+}
+
+ul li
+{
+	list-style-type:none;
+	float:left;
+}
+
+ol li
+{	
+	list-style-type:none;
+	float:left;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+.nofloat
+{
+	clear:both;
+}
+
+.form-item label {
+    width:8em;
+    float:left;
+}
+
+#wrap
+{
+	width:960px;
+	margin:0 auto;
+}
+
+#logo
+{
+	float:left;
+	width:180px;
+	height:90px;
+}
+
+#title_right
+{
+	float:left;
+	width:760px;
+}
+
+#mini_login
+{
+	text-align:right;
+	height:1.8em;
+	margin-left:1em;
+	margin-right:1em;
+}
+
+#mini_login a
+{
+	text-decoration: none;
+	overflow: hidden;
+	color:#303192;
+}
+
+#menu
+{
+	margin: 2em 1em 0em 0em;
+	font-weight: bold;
+}
+
+#menu ul li a
+{
+	font-size: 1.5em;
+	text-decoration: none;
+	padding:.5em .8em .5em;
+	overflow: hidden;
+	color:#303192;
+}
+
+#main
+{
+	float:left;
+	width:800px;
+}
+
+#register
+{
+	float:left;
+	width:400px;
+}
+
+#login
+{
+	float:left;
+	width:400px;
+}
+
+#sidebar
+{
+	float:right;
+	width:140px;
+	height:800px;
+	margin-top:21px;
+	padding:10px;
+	background:#c9c;
+}
+
+#search
+{
+	float:left;
+	width:960px;
+	height:300px;
+	background:url(../images/PageHead-960x300.png);
+	background-repeat:no-repeat;
+	color:#FFF;
+}
+
+#search-inner {
+	padding: 30px 30px;
+}
+
+#search #search_field{
+    background:#fff !important;
+    border:0;
+    font-size:1.6em;
+    height:30px;
+    line-height:24px;
+    margin:0;
+    width:418px;
+    box-shadow:none;
+}
+
+#search_attributes ol
+{
+	padding: 0px;
+}
+
+#search_attributes ol li
+{
+	margin-right: 10px;
+}
+
+.selectbox
+{
+	width: 100px;
+}
+
+#recommend
+{
+	height:100px;
+	background:#6C3;
+}
+
+#news
+{
+	padding:10px 0px;
+}
+
+.news_col
+{
+	float:left;
+	width:180px;
+	height:300px;
+	padding:0px 10px;
+}
+
+.news_col h3
+{
+	font-weight: normal;
+	border-bottom: 1px solid #CCC;
+	word-spacing: -0.03em;
+}
+
+#footer {
+	clear:both;
+	padding:10px;
+	font-size:0.8em;
+	color:#666;
+}
+
+#footer ul li
+{
+	margin:	1em 3em;
+}
+
+#copyright {
+	width:960px;
+	clear:both;
+	text-align:center;
+}
+
+.none
+{
+	display: none;
+}
